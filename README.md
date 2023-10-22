@@ -1,48 +1,56 @@
 # Mutual Subspace Methods Repository
 
-This repository hosts a collection of mutual subspace methods and their implementations. 
+Welcome to the Mutual Subspace Methods Repository! Here, we host a comprehensive collection of mutual subspace methods and their respective implementations, aiming to provide resources and examples for researchers and practitioners interested in subspace methods.
 
-## Methods
+## Overview
+Mutual Subspace Methods (MSMs) are a category of algorithms used for pattern recognition and classification. They operate by mapping data into subspaces and measuring the similarity between these subspaces. This repository includes various MSMs and their kernelized versions, providing implementations and examples to facilitate understanding and application.
+
+## Available Methods
+In this repository, you will find implementations for the following methods:
+
 - [x] Mutual Subspace Method (MSM)
-- [ ] Constraint Mutual Subspace method (CMSM)
-- [ ] Orthogonal Mutual subspace method (OMSM)
+- [ ] Constrained Mutual Subspace Method (CMSM)
+- [ ] Orthogonal Mutual Subspace Method (OMSM)
 - [x] Kernel Mutual Subspace Method (KMSM)
-- [ ] Kernel Constraint Mutual Subspace method (KCMSM)
-- [ ] Kernel Orthogonal Mutual subspace method (KOMSM)
+- [ ] Kernel Constrained Mutual Subspace Method (KCMSM)
+- [ ] Kernel Orthogonal Mutual Subspace Method (KOMSM)
 - [ ] Random Fourier Features MSM (RFFMSM)
 - [ ] K-means KOMSM
 - [ ] RFF + K-means KOMSM
 
 ## Sample Implementation
-Below is a sample implementation for the Mutual Subspace Method (MSM):
+Below, we provide a sample MATLAB implementation for the Mutual Subspace Method (MSM). The implementation demonstrates how to compute the similarity between two subspaces and calculate the classification accuracy.
 
-## Datasets Used
-1. CVLabFace
-2. TsukubaHand24x24
-Each example implementation is available in files named as `example_(name_of_the_method).m`.
-
-## Further Reading
-If you are interested in learning more about these methods, consider reviewing the following papers:
 ```matlab
+% Sample Implementation of Mutual Subspace Method (MSM)
 reference_subspaces = cvlBasisVector(training_data, num_dim_reference_subspaces);
 input_subspaces = cvlBasisVector(testing_data, num_dim_input_subspace);
-similarities = cvlCanonicalAngles(reference_subspaces,input_subspaces);
+similarities = cvlCanonicalAngles(reference_subspaces, input_subspaces);
 accuracy = cvlComputeAccuracy(similarities, num_sets, num_classes);
 
 fprintf('Accuracy MSM: %.2f%%\n', accuracy * 100);
 ```
 
+Each example implementation for the methods listed above can be found in files named `example_(name_of_the_method).m`.
 
-### Basics of Subspace Methods
-- [Subspace Methods](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/subspace_method.pdf)
-              
-### CMSM, OMSM, KCMSM, KOMSM
-- [Comparison between Constrained Mutual Subspace Method and Orthogonal Mutual Subspace Method](https://www.cs.tsukuba.ac.jp/internal/techreport/data/CS-TR-06-7.pdf)
-- [Face Recognition with the Multiple Constrained Mutual Subspace Method](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/AVBPA05.pdf)
+## Datasets
+The repository includes examples and implementations that utilize the following datasets:
 
-### Kmeans KOMSM
-- [Hand Shape Recognition based on Kernel Orthogonal Mutual Subspace Method ](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/MVA2009.pdf)
+1. **CVLabFace**: A simple sample dataset consisting of 270 samples, designed to provide a straightforward example for implementation and testing.
+2. **TsukubaHand24x24**: A comprehensive dataset created by the Computer Vision Lab of the University of Tsukuba. It contains more than 1.4 million images, offering a rich resource for testing and validating mutual subspace methods.
 
----
+## Further Reading and References
+To gain a deeper understanding of Mutual Subspace Methods and their applications, we recommend exploring the following papers and resources:
 
-Feel free to explore and contribute to the repository!
+### Basics and Fundamentals
+- [Subspace Methods](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/subspace_method.pdf): A comprehensive guide to subspace methods, providing the theoretical background and practical applications.
+
+### Specific Methods
+- [Comparison between Constrained Mutual Subspace Method and Orthogonal Mutual Subspace Method](https://www.cs.tsukuba.ac.jp/internal/techreport/data/CS-TR-06-7.pdf): A detailed comparison between CMSM and OMSM.
+- [Face Recognition with the Multiple Constrained Mutual Subspace Method](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/AVBPA05.pdf): An application of CMSM in face recognition.
+- [Hand Shape Recognition based on Kernel Orthogonal Mutual Subspace Method](http://www.cvlab.cs.tsukuba.ac.jp/~kfukui/english/epapers/MVA2009.pdf): Discussing the application of KOMSM in hand shape recognition.
+
+## Contribution and Collaboration
+We welcome contributions and collaborations from the community! Feel free to fork the repository, make your changes, and submit a pull request. If you have any questions or suggestions, feel free to open an issue or contact the maintainers.
+
+Let's work together to enhance the understanding and application of Mutual Subspace Methods!

@@ -1,16 +1,16 @@
-function [eig_vectors, eig_values, eig_ratio] = computePCA(X, num_sub_dim, varargin)
+function [eig_vectors, eig_values, eig_ratio, num_principal_components] = computePCA(X, num_sub_dim, varargin)
     % computePCA: compute PCA of X
-    % Input:
+    % Parameters:
     %   X: num_dim x num_samples data matrix
     %   num_sub_dim: number of sub-dimensions to keep (Principal Components). if num_sub_dim < 1
     %                then it is the ratio of variance to keep
     %   varargin: if not specified PCA is computed on covariance matrix, 
     %             if set to 'R' then PCA is computed on correlation matrix
-    % Output:
-    %   Z: projected data to the principal components
+    % Return:
     %   eig_vectors: eigenvectors of the covariance/correlation matrix
     %   eig_values: eigenvalues of the covariance/correlation matrix
     %   eig_ratio: ratio of variance explained by each principal component
+    %   num_principal_components: number of principal components
     % Last Update: 2023/10 by Santos Enoque
     % Computer vison laboratory, University of Tsukuba
     % http://www.cvlab.cs.tsukuba.ac.jp/ 
@@ -97,4 +97,4 @@ function [eig_vectors, eig_values, eig_ratio] = computePCA(X, num_sub_dim, varar
             eig_ratio = sum(eig_values);
         end
     end
-   
+  num_principal_components = size(eig_vectors, 2); 

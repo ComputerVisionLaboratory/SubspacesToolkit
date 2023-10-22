@@ -1,5 +1,4 @@
-data = [1, 2, 3, 4; 5, 6, 7, 8;];
-[vec, vals, ratio] = computePCA(data, 0.6, 'R');
-vec
-vals
-ratio
+rng(42);  % Set the random number generator seed to ensure reproducibility
+random_matrix = rand(10, 7, 4);  % Generate a 10x7x4 matrix of random numbers from 0 to 1
+basis_vecs = computeBasisVectors(random_matrix, 3);
+basis_vecs

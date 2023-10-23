@@ -1,5 +1,4 @@
 clc;
-addpath(genpath('..'))  % Add the subfolders of the project to the path
 
 % List of functions to test
 functions_to_test = {'ComputePCA',...

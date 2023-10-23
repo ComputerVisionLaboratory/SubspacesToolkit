@@ -1,11 +1,12 @@
 clc;
+addpath(genpath('..'))  % Add the subfolders of the project to the path
 
 % List of functions to test
 functions_to_test = {'ComputePCA',...
                     'ComputeBasisVectors',...
                     'ComputeSubspacesSimilarities'};
 
-functions_to_test = functions_to_test(1, end);
+% functions_to_test = functions_to_test(1, end);
 
 % Run tests for each function
 for func_name = functions_to_test

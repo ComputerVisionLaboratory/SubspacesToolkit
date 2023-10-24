@@ -56,12 +56,17 @@ end
 
 % Loop through each set of data and compute the basis vectors
 for i = 1:num_sets
-    [eig_vectors, ~, ~, actual_dim] = computePCA(X(:,:,i), num_sub_dim, 'R');
+    [eig_vectors, ~, ~, num_principal_components] = computePCA(X(:,:,i), num_sub_dim, 'R');
     
     if num_sub_dim >= 1
         basis_vectors(:, :, i) = eig_vectors;
     else
-        basis_vectors(:, 1:actual_dim, i) = eig_vectors;
+        basis_vectors(:, 1:num_principal_components, i) = eig_vectors;
+        % Check if is the last iteration of the loop
+        if i == num_sets
+            % Trim the basis vectors to the correct size
+            basis_vectors = basis_vectors(:, 1:num_principal_components, :);
+        end
     end
 end
 basis_vectors = reshape(basis_vectors, [size_of_X(1), size(basis_vectors, 2), size_of_X(3:end), 1]);

@@ -1,5 +1,6 @@
 classdef ModelEvaluation
     properties
+        accuracy;                 % Accuracy
         error_rate;                % Overall error rate
         equal_error_rate;         % Equal error rate (point where FAR and FRR are approximately equal)
         classification_threshold; % Threshold used for classification
@@ -43,11 +44,13 @@ classdef ModelEvaluation
                 else
                     [~, predicted_labels] = min(evaluation_values, [], 1);
                 end
-                
-                obj.error_rate = 1 - mean(predicted_labels == labels);
+                obj.accuracy = mean(predicted_labels == labels); 
+                obj.error_rate = 1 - obj.accuracy;
             else
                 binary_labels = zeros(size(labels));
                 binary_labels(labels ~= 0) = 1;
+                predicted_labels = evaluation_values >= obj.classification_threshold;
+                obj.accuracy = mean(predicted_labels == binary_labels);
             end
 
             evaluation_values = evaluation_values(:);

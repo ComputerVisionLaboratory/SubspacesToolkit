@@ -22,13 +22,23 @@ In this repository, you will find implementations for the following methods:
 Below, we provide a sample MATLAB implementation for the Mutual Subspace Method (MSM). The implementation demonstrates how to compute the similarity between two subspaces and calculate the classification accuracy.
 
 ```matlab
-% Sample Implementation of Mutual Subspace Method (MSM)
-reference_subspaces = cvlBasisVector(training_data, num_dim_reference_subspaces);
-input_subspaces = cvlBasisVector(testing_data, num_dim_input_subspace);
-similarities = cvlCanonicalAngles(reference_subspaces, input_subspaces);
-accuracy = cvlComputeAccuracy(similarities, num_sets, num_classes);
+load("data/CVLABFace2.mat")
+training_data = X1;
+testing_data = X2;
 
-fprintf('Accuracy MSM: %.2f%%\n', accuracy * 100);
+[~, num_samples, ~] = size(training_data);
+[num_dim, num_samples_per_set, num_sets, num_classes] = size(testing_data);
+
+num_dim_reference_subspaces = 20;
+num_dim_input_subpaces = 5;
+
+reference_subspaces = computeBasisVectors(training_data, num_dim_reference_subspaces);
+input_subspaces = computeBasisVectors(testing_data, num_dim_input_subpaces);
+similarities = computeSubspacesSimilarities(reference_subspaces, input_subspaces);
+
+model_evaluation = ModelEvaluation(similarities(:, :, end, end), generateLabels(size(testing_data, 3), num_classes));
+
+displayModelResults('Mutual Subspace Methods', model_evaluation);
 ```
 
 Each example implementation for the methods listed above can be found in files named `example_(name_of_the_method).m`.

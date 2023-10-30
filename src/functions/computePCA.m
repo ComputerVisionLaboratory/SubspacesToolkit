@@ -11,9 +11,11 @@ function [eig_vectors, eig_values, eig_ratio, num_principal_components] = comput
     %   eig_values: eigenvalues of the covariance/correlation matrix
     %   eig_ratio: ratio of variance explained by each principal component
     %   num_principal_components: number of principal components
+    %
+    % Created by: Computer vison laboratory, University of Tsukuba
     % Last Update: 2023/10 by Santos Enoque
-    % Computer vison laboratory, University of Tsukuba
     % http://www.cvlab.cs.tsukuba.ac.jp/ 
+
     X = X(:, :);
     [num_dim, num_samples] = size(X);
 

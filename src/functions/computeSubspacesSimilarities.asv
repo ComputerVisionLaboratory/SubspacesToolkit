@@ -44,6 +44,15 @@ function similarities = computeSubspacesSimilarities(X, Y, varargin)
 % Computer Vision Laboratory, University of Tsukuba
 % http://www.cvlab.cs.tsukuba.ac.jp/
 
+x_size = size(X);
+x_size = length(x_size);
+y_size = size(Y);
+y_size = length(y_size);
+% Check if the size of any of the subspaces is less than 3 or greater than 4
+if any(x_size < 3 | x_size > 4) || any(y_size < 3 | y_size > 4)
+    error('The size of each subspace must be greater than or equal to 3 and less than or equal to 4.');
+end
+
 use_svd = false;
 
 % Check if an additional input argument is provided
@@ -55,7 +64,7 @@ if nargin == 3
 end
 if (iscell(X) && iscell(Y))
     num_classes = numel(X);
-    % total_num_sets is the number of classes in the training data times
+    % total_num_sets is the number of classes in the training data times 
     % the number of sets per class (num_sets X num_classes)
     total_num_sets = numel(Y);
     switch(use_svd)
@@ -71,21 +80,13 @@ if (iscell(X) && iscell(Y))
             similarities = zeros(num_classes,total_num_sets,2);
             for i = 1:num_classes
                 for j = 1:total_num_sets
-                    tmp=squeeze(computeSubspacesSimilarities(X{i},Y{j},'F'))';
+                    tmp=squeeze(cvlCa(X{i},Y{j},'F'))';
                     similarities(i,j,1) = tmp(1);
                     similarities(i,j,2) = tmp(end);
                 end
             end
     end
 else
-    % x_size = size(X);
-    % x_size = length(x_size);
-    % y_size = size(Y);
-    % y_size = length(y_size);
-    % % Check if the size of any of the subspaces is less than 3 or greater than 4
-    % if any(x_size < 3 | x_size > 4) || any(y_size < 3 | y_size > 4)
-    %     error('The size of each subspace must be greater than or equal to 3 and less than or equal to 4.');
-    % end
     % Ensure X and Y are 3D matrices, even if they are 4D initially
     X = X(:,:,:);
     Y = Y(:,:,:);

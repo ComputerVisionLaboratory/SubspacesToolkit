@@ -1,4 +1,4 @@
-function similarities = computeKernelSubspacesSimilarities(X1, A1, X2, A2, nSigma)
+function similarities = computeKernelSubspacesSimilarities(X1, A1, X2, A2, sigma, varargin)
     % computeKernelSubspacesSimilarities computes the similarities between subspaces using a kernelized method.
     %
     % Input:
@@ -12,7 +12,16 @@ function similarities = computeKernelSubspacesSimilarities(X1, A1, X2, A2, nSigm
     % Usage:
     % For self similarity: similarities = computeKernelSubspacesSimilarities(X1, A1, nSigma)
     % For cross similarity: similarities = computeKernelSubspacesSimilarities(X1, A1, X2, A2, nSigma)
-    
+
+    use_rff = false;
+   if nargin > 6
+    if strcmp(varargin{1},'RFF')
+        use_rff = true;
+        rff_dim = varargin{2};
+    else
+        error('Invalid last argument.');
+    end
+   end 
     % Ensure all matrices are 3D
     X1 = X1(:,:,:);
     A1 = A1(:,:,:);
@@ -26,7 +35,13 @@ function similarities = computeKernelSubspacesSimilarities(X1, A1, X2, A2, nSigm
     % Compute similarities using the kernel matrix
     for I = 1:nSet1
         for J = 1:nSet2
-            K = exp(-orzL2Distance(X1(:,:,I), X2(:,:,J)) / nSigma);
+            if use_rff
+                X = X1(:,:,I);
+                Y = X2(:,:,J);
+                K = computeGramMatrixRFF(X, rff_dim, sigma, Y);
+            else
+                K = computeGaussianKernelMatrix(X1(:,:,I), X2(:,:,J), sigma);
+            end
             B(I, J, :, :) = (A1(:,:,I)' * K * A2(:,:,J)).^2;
         end
     end

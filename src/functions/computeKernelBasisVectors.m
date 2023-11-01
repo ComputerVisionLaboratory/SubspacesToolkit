@@ -1,4 +1,4 @@
-function [basis_vectors] = computeKernelBasisVectors(X,num_sub_dim_or_c_ratio,sigma)
+function [basis_vectors] = computeKernelBasisVectors(X,num_sub_dim_or_c_ratio,sigma, varargin)
 % computeKernelBasisVectors: Compute kernel-based subspace basis vectors using Gaussian kernel PCA.
 %
 % This function calculates the kernel-based basis vectors for the given data X.
@@ -34,6 +34,18 @@ function [basis_vectors] = computeKernelBasisVectors(X,num_sub_dim_or_c_ratio,si
 if num_sub_dim_or_c_ratio <= 0 || (num_sub_dim_or_c_ratio >= 1 && floor(num_sub_dim_or_c_ratio) ~= num_sub_dim_or_c_ratio)
     error('num_sub_dim must be a positive integer or a ratio (0 < num_sub_dim < 1).');
 end
+use_rff = false;
+
+if nargin > 3
+    if strcmp(varargin{1},'RFF')
+        % If the last argument is 'R', the function returns the number of principal components
+        % that were computed for each set of samples.
+        use_rff = true;
+        rff_dim = varargin{2};
+    else
+        error('Invalid last argument.');
+    end
+end
 
 size_of_X = size(X);
 num_sets = prod(size_of_X)/prod(size_of_X(1:2));
@@ -41,14 +53,21 @@ X = reshape(X,size(X,1),size(X,2),num_sets);
 
 if num_sub_dim_or_c_ratio >= 1
     % Pre-allocate space for the basis vectors
+    if use_rff
+    basis_vectors = zeros(size_of_X(1), floor(num_sub_dim_or_c_ratio), num_sets);
+    else
     basis_vectors = zeros(size_of_X(2), floor(num_sub_dim_or_c_ratio), num_sets);
+    end
 else
-    % If num_sub_dim is a ratio, allocate maximum possible space
     basis_vectors = zeros(size_of_X(2), size_of_X(2), num_sets);
 end
 
 for i =1:num_sets
-    [eig_vectors, ~, ~, ~, num_principal_components] = computeKernelPCA(X(:,:,i),num_sub_dim_or_c_ratio,sigma,'R');
+    if use_rff
+        [eig_vectors, ~, ~, ~, num_principal_components] = computeKernelPCA(X(:,:,i),num_sub_dim_or_c_ratio,sigma,'R', 'RFF', rff_dim);
+    else
+        [eig_vectors, ~, ~, ~, num_principal_components] = computeKernelPCA(X(:,:,i),num_sub_dim_or_c_ratio,sigma,'R');
+    end
     
     if num_sub_dim_or_c_ratio >= 1
         basis_vectors(:, :, i) = eig_vectors;
@@ -63,5 +82,9 @@ for i =1:num_sets
 end
 
 if size(X,3) ~= 1
+    if use_rff 
+    basis_vectors = reshape(basis_vectors,[size_of_X(1),size(basis_vectors, 2),size_of_X(3:end),1]);
+    else
     basis_vectors = reshape(basis_vectors,[size_of_X(2),size(basis_vectors, 2),size_of_X(3:end),1]);
+    end
 end

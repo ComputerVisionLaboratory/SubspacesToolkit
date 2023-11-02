@@ -35,7 +35,7 @@ if num_sub_dim_or_c_ratio <= 0 || (num_sub_dim_or_c_ratio >= 1 && floor(num_sub_
     error('num_sub_dim must be a positive integer or a ratio (0 < num_sub_dim < 1).');
 end
 use_rff = false;
-use_nystrom = false;
+use_nystom = false;
 
 if nargin > 3
     if strcmp(varargin{1},'RFF')

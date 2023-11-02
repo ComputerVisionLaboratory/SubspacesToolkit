@@ -26,7 +26,10 @@ X = X(:, :);
 [~, num_samples] = size(X);
 
 use_covariance_matrix = true;
+
 use_rff = false;
+use_nystrom = false;
+
 if nargin == 4
     if strcmp(varargin{1}, 'R')
         use_covariance_matrix = false;
@@ -36,6 +39,10 @@ elseif nargin > 4
         use_covariance_matrix = false;
         use_rff = true;
         rff_dim = varargin{3};
+    elseif strcmp(varargin{2}, 'NY')
+        use_covariance_matrix = false;
+        use_nystrom = true;
+        num_landmarks = varargin{3};
     else
         error('Invalid input arguments.');
     end
@@ -43,6 +50,8 @@ end
 
 if use_rff == true
     kernel_matrix = computeGramMatrixRFF(X,rff_dim, sigma);
+elseif use_nystrom == true
+    kernel_matrix = computeGramMatrixNystrom(X,num_landmarks, sigma);
 else
     kernel_matrix = computeGaussianKernelMatrix(X, sigma);
 end

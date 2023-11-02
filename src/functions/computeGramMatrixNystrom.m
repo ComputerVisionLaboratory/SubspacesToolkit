@@ -1,4 +1,4 @@
-function kernel_matrix = computeGramMatrixNystom(X, sigma, m, Y)
+function kernel_matrix = computeGramMatrixNystom(X, m, sigma, Y)
     if nargin < 4
         Y = X;
     end
